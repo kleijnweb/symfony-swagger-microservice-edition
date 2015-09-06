@@ -15,6 +15,11 @@ use Dotenv\Dotenv;
 $dotenv = new Dotenv(__DIR__ . '/../');
 $dotenv->load();
 
+if (0 === strpos($_SERVER['SERVER_SOFTWARE'], 'PHP ')) {
+    // Built-in server: assuming dev
+    $dotenv->overload();
+}
+
 $request = Request::createFromGlobals();
 $kernel = new AppKernel($_SERVER['SYMFONY_ENV'], (bool)$_SERVER['SYMFONY_DEBUG']);
 $response = $kernel->handle($request);
