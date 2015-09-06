@@ -1,4 +1,4 @@
-# KleijnWeb Symfony Swagger Microservice Edition 
+# Symfony Swagger Microservice Edition 
 
 Symfony edition for "interface first" microservices that's as lean and mean as it is unofficial.  
 
