@@ -1,0 +1,19 @@
+imports:
+    - { resource: services.yml }
+
+framework:
+    secret: %secret%
+    serializer:
+        enabled: true
+    router:
+        resource: "%kernel.root_dir%/config/routing.yml"
+        strict_requirements: %kernel.debug%
+    profiler:
+        enabled: %kernel.debug%
+
+monolog:
+    handlers:
+        stderr:
+            type:  stream
+            path:  php://stderr
+            level: %log_level%

@@ -1,0 +1,6 @@
+.env
+vendor
+bin
+composer.lock
+app/cache
+app/logs

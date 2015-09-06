@@ -1,0 +1,4 @@
+petstore:
+    resource: "web/petstore.yml"
+    type: swagger
+    prefix: /v2

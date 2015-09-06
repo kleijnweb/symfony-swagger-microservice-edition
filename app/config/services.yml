@@ -1,0 +1,6 @@
+services:
+  swagger.controller.pet:
+    class: Acme\PetStoreBundle\Controller\PetController
+
+  swagger.controller.store:
+    class: Acme\PetStoreBundle\Controller\StoreController

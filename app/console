@@ -1,0 +1,25 @@
+#!/usr/bin/env php
+<?php
+/*
+ * This file is part of the kleijnweb/symfony-swagger-microservice-edition package.
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+set_time_limit(0);
+
+require_once __DIR__ . '/../vendor/autoload.php';
+require_once __DIR__ . '/AppKernel.php';
+
+use Symfony\Bundle\FrameworkBundle\Console\Application;
+use Symfony\Component\Console\Input\ArgvInput;
+use Dotenv\Dotenv;
+
+$dotenv = new Dotenv(__DIR__ . '/../');
+$dotenv->load();
+
+$input = new ArgvInput();
+$kernel = new AppKernel($_SERVER['SYMFONY_ENV'], (bool)$_SERVER['SYMFONY_DEBUG']);
+$application = new Application($kernel);
+$application->run($input);

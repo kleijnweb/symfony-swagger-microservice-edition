@@ -1,0 +1,8 @@
+imports:
+    - { resource: config.yml }
+
+parameters:
+  test.client.class: KleijnWeb\SwaggerBundle\Test\ApiTestClient
+
+framework:
+    test: ~
