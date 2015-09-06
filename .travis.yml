@@ -8,6 +8,8 @@ before_install:
 install:
     - composer install --dev --prefer-source
 
+script: phpunit -c app
+
 matrix:
     include:
         - php: 5.4
