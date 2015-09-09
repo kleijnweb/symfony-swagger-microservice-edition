@@ -45,7 +45,7 @@ If you haven't done so already, build your service image:
 
 ```bash
 docker build -t my-app-name .
-``
+```
 
 Create a default, dummy nginx config (it will be replaced as soon as docker-gen comes up):
 
@@ -65,7 +65,7 @@ Confirm the container is running (`docker ps`). Put bundled nginx.tmpl somewhere
 
 ```bash
 rm -rf /tmp/templates && mkdir /tmp/templates && cp nginx.tmpl /tmp/templates
-``
+```
 
 __NOTE__: This nginx config has been pretty much stripped down to the necessities for running a microservice. You may want to edit it. Any containers exposing port 9000 will be added as upstream server using this template. Again, you may want to edit it.
 
