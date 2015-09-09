@@ -43,55 +43,57 @@ Jason Wilder has created an easy to use lib that updates config when certain Doc
 
 If you haven't done so already, build your service image:
 
-``sh
+```bash
 docker build -t my-app-name .
 ``
 
 Create a default, dummy nginx config (it will be replaced as soon as docker-gen comes up):
 
-``sh
+```bash
 echo 'events {
           worker_connections 1024;
       }' >  /tmp/nginx/nginx.conf
-``
+```
+
 Run a standard nginx container, expose port 8000 to the host (80 if you prefer), but add its config directory as a volume:
 
-``sh
+```bash
 docker run -d --name nginx -p 8000:80 --log-driver=syslog  -v /tmp/nginx:/etc/nginx -t nginx
-``
+```
 
 Confirm the container is running (`docker ps`). Put bundled nginx.tmpl somewhere docker-gen can access it:
 
-``sh
+```bash
 rm -rf /tmp/templates && mkdir /tmp/templates && cp nginx.tmpl /tmp/templates
 ``
 
-__NOTE 1__: This nginx config has been pretty much stripped down to the necessities for running a microservice. You may want to edit it. Any containers exposing port 9000 will be added as upstream server using this template. Again, you may want to edit it.
+__NOTE__: This nginx config has been pretty much stripped down to the necessities for running a microservice. You may want to edit it. Any containers exposing port 9000 will be added as upstream server using this template. Again, you may want to edit it.
 
 Run a docker-gen container that'll monitor docker for changes in containers, and update the ngnix.conf.
 
-``sh
+```bash
 docker run -d --name my-app-name-nginx-gen --volumes-from nginx --log-driver=syslog \
    -v /var/run/docker.sock:/tmp/docker.sock \
    -v /tmp/templates:/etc/docker-gen/templates \
    -t jwilder/docker-gen:0.3.4 -notify-sighup nginx -watch --only-exposed /etc/docker-gen/templates/nginx.tmpl /etc/nginx/nginx.conf
-``
+```
+
 __NOTE__: If the container doesn't start, you probably edited the ngnix.tmpl and it has a parse error. Run without `-d` to debug.
 
 To see the magic working, watch nginx.conf on the host system:
 
-``sh
+```bash
 tail -n 50 /tmp/nginx/nginx.conf
-``
+```
 
 Start running containers based on your service image:
 
-``sh
+```bash
 docker run -d my-app-name
 docker run -d my-app-name
 docker run -d my-app-name
 ..
-``
+```
 
 The `upstream` section will look something like this:
 
