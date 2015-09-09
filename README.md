@@ -21,8 +21,7 @@ I am not affiliated with SensioLabs in any way, and not particularly connected t
 1. `composer install`
 2. Rename `.env.dist` to `.env`
 3. Confirm all is good to start screwing things up: `phpunit -c app` 
-4. Replace `web/petstore.yml` with your own Swagger
-5. Update that ref in `routing.yml`
+4. Replace `app/config/swagger.yml` with your own Swagger
 6. Start hacking away at the pet store :)
 
 __Note:__ To change the root namespace from Acme to your own, update composer.json autoload config and `install`.
