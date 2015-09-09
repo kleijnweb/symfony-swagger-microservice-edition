@@ -4,7 +4,7 @@ Symfony edition for "interface first" microservices that's as lean and mean as i
 
 ## Lean
 
-The Symfony Standard Editions bundles no less than 125MB worth of bytes. This edition comes in at 12MB (both installed with --no-dev). Components are cherry picked from Symfony, instead of including the whole framework with all the trimmings and then some 3rd part stuff.
+The Symfony Standard Editions bundles no less than 125MB worth of bytes. This edition comes in at 12MB (both installed with --no-dev). Components are cherry picked from Symfony, instead of including the whole framework with all the trimmings and then some 3rd part stuff. Less is more. An nginx config template reflecting this philosophy is included.
  
 ## Mean
 
