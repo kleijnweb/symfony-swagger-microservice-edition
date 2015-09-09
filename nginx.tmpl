@@ -1,0 +1,101 @@
+user nginx;
+worker_processes auto;
+error_log   /dev/stderr  error;
+pid /run/nginx.pid;
+
+events {
+    worker_connections 1024;
+}
+
+http {
+    # Log access to STDOUT using this format
+    log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
+                      '$status $body_bytes_sent "$http_referer" '
+                      '"$http_user_agent" "$http_x_forwarded_for"';
+
+    access_log  /dev/stdout  main;
+
+    # Remove Nginx version from Server header, will still include vanity
+    server_tokens       off;
+
+    # Consider number of clients and typical app response time when setting this number
+    keepalive_timeout   60;
+
+    # Disable 'TCP buffering by waiting for more data'
+    tcp_nodelay         on;
+
+    # Only send full (maximum segment size) TCP packets (only disable together with sendfile)
+    tcp_nopush          on;
+
+    # If Nginx doesn't actually serve up files from the fs, and
+    # you don't have to send binary data from your app efficiently using X-Accell-* headers,
+    # you can leave this disabled.
+    # sendfile            on;
+
+    # You might need to increase the hash bucket size if you're using long custom content-type names.
+    types_hash_max_size 128;
+
+    # Stripped down to bare essentials
+    types {
+    	text/plain txt;
+    	text/xml xml;
+    	text/json json;
+    	application/json json;
+    }
+
+    # Raw data by default
+    default_type        application/octet-stream;
+
+    upstream phpfpm_upstream {
+        {{range $key, $value := . }}{{ $addrLen := len $value.Addresses }}{{if gt $addrLen 0 }}
+        {{with $address := index $value.Addresses 0 }}{{ if eq $address.Port "9000" }}# {{$value.Name}}
+        server {{ $address.IP }}:9000;
+        {{end}}{{end}}{{end}}{{end}}
+    }
+
+    server {
+        listen       80;
+        server_name  _;
+
+        location / {
+            limit_except GET HEAD POST PUT DELETE PATCH {
+                # Lets save our upstream services some noise
+                return 405;
+            }
+
+            fastcgi_pass phpfpm_upstream;
+            fastcgi_split_path_info ^(.+\.php)(/.*)$;
+
+            # There is only a single entrypoint, so lets hard-code it, prevent any mishaps or exploits
+            fastcgi_param  SCRIPT_FILENAME /var/www/html/app.php;
+            fastcgi_param  DOCUMENT_ROOT   /var/www/html;
+            fastcgi_param  SCRIPT_NAME     app.php;
+            fastcgi_param  QUERY_STRING		$query_string;
+            fastcgi_param	REQUEST_METHOD		$request_method;
+            fastcgi_param	CONTENT_TYPE		$content_type;
+            fastcgi_param	CONTENT_LENGTH		$content_length;
+
+            fastcgi_param	SCRIPT_FILENAME		$request_filename;
+            fastcgi_param	SCRIPT_NAME		$fastcgi_script_name;
+            fastcgi_param	REQUEST_URI		$request_uri;
+            fastcgi_param	DOCUMENT_URI		$document_uri;
+            fastcgi_param	DOCUMENT_ROOT		$document_root;
+            fastcgi_param	SERVER_PROTOCOL		$server_protocol;
+
+            fastcgi_param	GATEWAY_INTERFACE	CGI/1.1;
+            fastcgi_param	SERVER_SOFTWARE		nginx;
+
+            fastcgi_param	REMOTE_ADDR		$remote_addr;
+            fastcgi_param	REMOTE_PORT		$remote_port;
+            fastcgi_param	SERVER_ADDR		$server_addr;
+            fastcgi_param	SERVER_PORT		$server_port;
+            fastcgi_param	SERVER_NAME		$server_name;
+
+            # Required if PHP was built with --enable-force-cgi-redirect
+            fastcgi_param	REDIRECT_STATUS		200;
+
+            # Assuming this is not public-facing
+            fastcgi_param  HTTPS           off;
+        }
+    }
+}
