@@ -43,8 +43,8 @@ http {
     	application/json json;
     }
 
-    # Raw data by default
-    default_type        application/octet-stream;
+    # Plain text by default
+    default_type  text/plain;
 
     upstream phpfpm_upstream {
         {{range $key, $value := . }}{{ $addrLen := len $value.Addresses }}{{if gt $addrLen 0 }}
