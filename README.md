@@ -34,7 +34,7 @@ __Note:__ To change the root namespace from Acme to your own, update composer.js
 
 This runs pretty damn fast. Crazy fast.
 
-To build your app, run `docker build -t my-app-name .`. 
+To build your app, run `docker build -t my-app-name .`. Edit php.ini if needed.
 Then run the container as a background process: `docker run -d my-app-name`. Now you can use any fcgi frontend, eg nginx.
 
 ### Load Balancing Your FCGI Service
