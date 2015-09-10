@@ -4,6 +4,9 @@ FROM php:7-fpm
 RUN apt-get update && apt-get install -y zlib1g-dev \
     && docker-php-ext-install zip
 
+# Without this, errors will not be logged to stderr
+RUN echo 'catch_workers_output = yes' >> /usr/local/etc/php-fpm.conf
+
 # Set up production config
 RUN echo 'error_reporting = E_ALL' >> /usr/local/etc/php/php.ini
 RUN echo 'display_errors = Off' >> /usr/local/etc/php/php.ini
@@ -11,7 +14,7 @@ RUN echo 'date.timezone = "UTC"' >> /usr/local/etc/php/php.ini
 RUN echo 'cgi.fix_pathinfo=1' >> /usr/local/etc/php/php.ini
 RUN echo 'expose_php = Off' >> /usr/local/etc/php/php.ini
 RUN echo 'default_mimetype = "text/plain"' >> /usr/local/etc/php/php.ini
-RUN echo 'display_errors = Off' >> /usr/local/etc/php/php.ini
+RUN echo 'display_errors = On' >> /usr/local/etc/php/php.ini
 RUN echo 'memory_limit = 256M' >> /usr/local/etc/php/php.ini
 RUN echo 'max_execution_time = 3' >> /usr/local/etc/php/php.ini
 
@@ -23,3 +26,4 @@ RUN apt-get clean
 
 ADD . /var/www/html
 RUN /usr/local/sbin/composer update --prefer-source --no-dev --optimize-autoloader --no-interaction
+RUN /var/www/html/app/console cache:warmup -e=prod

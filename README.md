@@ -4,7 +4,13 @@ Symfony edition for "interface first" microservices that's as lean and mean as i
 
 ## Lean
 
-The Symfony Standard Editions bundles no less than 125MB worth of bytes. This edition comes in at 12MB (both installed with --no-dev). Components are cherry picked from Symfony, instead of including the whole framework with all the trimmings and then some 3rd part stuff. Less is more. An nginx config template reflecting this philosophy is included.
+The Symfony Standard Editions bundles no less than 125MB worth of bytes. This edition comes in at 32MB (both installed with --no-dev). Components are cherry picked from Symfony, instead of including the whole framework with all the trimmings and then some 3rd part stuff*. 
+
+*Less is more*. An nginx config template reflecting this philosophy is included.
+
+__* NOTE:__ The symfony/framework bundle adds plently of unneeded dependencies. Without them, this editiion comes in at around 15MB (see [this issue](https://github.com/symfony/symfony/issues/15748)).
+
+
  
 ## Mean
 
@@ -57,7 +63,7 @@ echo 'events {
 Run a standard nginx container, expose port 8000 to the host (80 if you prefer), but add its config directory as a volume:
 
 ```bash
-docker run -d --name nginx -p 8000:80 --log-driver=syslog  -v /tmp/nginx:/etc/nginx -t nginx
+docker run -d --name nginx -p 8000:80 -v /tmp/nginx:/etc/nginx -t nginx
 ```
 
 Confirm the container is running (`docker ps`). Put bundled nginx.tmpl somewhere docker-gen can access it:
@@ -71,7 +77,7 @@ __NOTE__: This nginx config has been pretty much stripped down to the necessitie
 Run a docker-gen container that'll monitor docker for changes in containers, and update the ngnix.conf.
 
 ```bash
-docker run -d --name my-app-name-nginx-gen --volumes-from nginx --log-driver=syslog \
+docker run -d --name my-app-name-nginx-gen --volumes-from nginx  \
    -v /var/run/docker.sock:/tmp/docker.sock \
    -v /tmp/templates:/etc/docker-gen/templates \
    -t jwilder/docker-gen:0.3.4 -notify-sighup nginx -watch --only-exposed /etc/docker-gen/templates/nginx.tmpl /etc/nginx/nginx.conf
