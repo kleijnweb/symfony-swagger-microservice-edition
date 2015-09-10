@@ -21,7 +21,7 @@ class PetStoreApiTest extends ApiTestCase
 
     public static function setUpBeforeClass()
     {
-        parent::initSchemaManager(__DIR__ . '/../../../web/petstore.yml');
+        parent::initSchemaManager(__DIR__ . '/../../../app/config/swagger.yml');
     }
 
     /**

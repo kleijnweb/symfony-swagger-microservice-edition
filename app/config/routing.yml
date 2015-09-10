@@ -1,4 +1,4 @@
 petstore:
-    resource: "config/swagger.yml"
+    resource: "app/config/swagger.yml"
     type: swagger
     prefix: /v2
