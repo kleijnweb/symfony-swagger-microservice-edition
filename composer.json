@@ -15,6 +15,7 @@
   },
   "require": {
     "php": ">=5.4.0",
+    "symfony/framework-bundle": "^2.7",
     "kleijnweb/swagger-bundle": "dev-master",
     "symfony/monolog-bundle": "~2.6",
     "vlucas/phpdotenv": "~2.0"
