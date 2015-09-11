@@ -32,24 +32,28 @@ I am not affiliated with SensioLabs in any way, and not particularly connected t
 
 __Note:__ To change the root namespace from Acme to your own, update composer.json autoload config and `install`.
 
-
 ## Docker
+
+Want awesomeness without delay? Then `./kickstart.sh` first, ask questions later.
 
 ### PHP 7.0 + FPM Docker container
 
-This runs pretty damn fast. Crazy fast.
+This runs pretty damn fast. A full round-trip will generally stay under 50ms (not accounting for initial cache warmup, external resources and varying hardware).
 
-To build your app, run `docker build -t my-app-name .`. Edit php.ini if needed.
-Then run the container as a background process: `docker run -d my-app-name`. Now you can use any fcgi frontend, eg nginx.
+To build your app, run `docker build -t my-service-name .`. Edit php.ini if needed.
+Then run the container as a background process: `docker run -d my-service-name`. Now you can use any fcgi frontend, eg nginx.
 
-### Load Balancing Your FCGI Service
+### Redundant FCGI Service
+
+On a single server, load balancing using docker containers does not make much sense. But having a redundant setup not only protects you from downtime,
+it also makes for 0 downtime deployments.
  
 Jason Wilder has created an easy to use lib that updates config when certain Docker events are triggered. You can use it to autoupdate your upstream fcgi server list in Nginx. Instructions:
 
 If you haven't done so already, build your service image:
 
 ```bash
-docker build -t my-app-name .
+docker build -t my-service-name-v1 .
 ```
 
 Create a default, dummy nginx config (it will be replaced as soon as docker-gen comes up):
@@ -94,10 +98,9 @@ tail -n 50 /tmp/nginx/nginx.conf
 Start running containers based on your service image:
 
 ```bash
-docker run -d my-app-name
-docker run -d my-app-name
-docker run -d my-app-name
-..
+docker run -d my-app-name-v1
+docker run -d my-app-name-v1
+docker run -d my-app-name-v1
 ```
 
 The `upstream` section will look something like this:
@@ -117,6 +120,10 @@ upstream phpfpm_upstream {
 ```
 
 Try stopping and starting containers to see the config being updated, eg `docker stop kickass_payne`.
+
+You can test the demo API by requesting `http://127.0.0.1:8000/v2/pet/findByStatus?status=pending`.
+
+Deploying a new version of your service could not be easier. Build the new version, then repeatedly stop an old and start a new container until all containers are replaced.
 
 Enjoy :) 
 

@@ -9,7 +9,10 @@ framework:
         resource: "%kernel.root_dir%/config/routing.yml"
         strict_requirements: %kernel.debug%
     profiler:
-        enabled: %kernel.debug%
+        enabled: false
+
+parameters:
+  swagger.document.base_path: "%kernel.root_dir%"
 
 monolog:
     handlers:

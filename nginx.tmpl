@@ -32,17 +32,6 @@ http {
     # you can leave this disabled.
     # sendfile            on;
 
-    # You might need to increase the hash bucket size if you're using long custom content-type names.
-    types_hash_max_size 128;
-
-    # Stripped down to bare essentials
-    types {
-    	text/plain txt;
-    	text/xml xml;
-    	text/json json;
-    	application/json json;
-    }
-
     # Plain text by default
     default_type  text/plain;
 
