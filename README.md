@@ -1,4 +1,4 @@
-# Symfony Swagger Microservice Edition 
+# Symfony Swagger Microservice Edition [![Build Status](https://travis-ci.org/kleijnweb/symfony-swagger-microservice-edition.svg?branch=master)](https://travis-ci.org/kleijnweb/symfony-swagger-microservice-edition) 
 
 Symfony edition for "interface first" microservices that's as lean and mean as it is unofficial.  
 
