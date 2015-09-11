@@ -34,6 +34,12 @@ __Note:__ To change the root namespace from Acme to your own, update composer.js
 
 ## Docker
 
+To follow this section your need [Docker](http://docs.docker.com/) installed. This one-liner should do the trick:
+
+```bash
+curl -sSL https://get.docker.com/ | sh
+```
+
 Want awesomeness without delay? Then `./kickstart.sh` first, ask questions later.
 
 ### PHP 7.0 + FPM Docker container
