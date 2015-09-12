@@ -8,15 +8,14 @@ The Symfony Standard Editions bundles no less than 125MB worth of bytes. This ed
 
 *Less is more*. An nginx config template reflecting this philosophy is included.
 
-__* NOTE:__ The symfony/framework bundle adds plently of unneeded dependencies. Without them, this editiion comes in at around 15MB (see [this issue](https://github.com/symfony/symfony/issues/15748)).
-
+__* NOTE:__ The symfony/framework bundle adds plenty of unneeded dependencies. Without them, this edition comes in at around 15MB (see [this issue](https://github.com/symfony/symfony/issues/15748)).
 
  
 ## Mean
 
-This edition uses [kleijnweb/swagger-bundle](https://github.com/kleijnweb/swagger-bundle) to integrate routing and input validation from Swagger into Symfony. Just add water. On top of its (very modest) dependencies, this edition only adds [vlucas/phpdotenv](https://github.com/vlucas/phpdotenv). Monolog is added as the logger, as SwaggerBundle will work with any PSR logger and depends only on the interface package.
+This edition uses [kleijnweb/swagger-bundle](https://github.com/kleijnweb/swagger-bundle) to integrate routing and input validation from Swagger into Symfony. On top of its (very modest) dependencies, this edition only adds [vlucas/phpdotenv](https://github.com/vlucas/phpdotenv). Monolog is added as the logger, as SwaggerBundle will work with any PSR logger and depends only on the interface package.
 
-For devs, it adds convenience methods for functional testing of your API, which includes validation of your responses against your Swagger definition thanks to [SwaggerAssertions](https://github.com/Maks3w/SwaggerAssertions).
+This package only uses the minimal capabilities of SwaggerBundle. Refer to [kleijnweb/swagger-bundle](https://github.com/kleijnweb/swagger-bundle) for an overview of implementation options.
 
 ## Unofficial
 
