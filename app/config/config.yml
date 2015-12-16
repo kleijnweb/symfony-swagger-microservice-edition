@@ -9,8 +9,9 @@ framework:
     profiler:
         enabled: false
 
-parameters:
-  swagger.document.base_path: "%kernel.root_dir%"
+swagger:
+    document:
+        base_path: "%kernel.root_dir%"
 
 monolog:
     handlers:

@@ -8,20 +8,33 @@
 namespace Acme\PetStoreBundle\Tests;
 
 use KleijnWeb\SwaggerBundle\Dev\Test\ApiTestCase;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 /**
  * @author John Kleijn <john@kleijnweb.nl>
  */
-class PetStoreApiTest extends ApiTestCase
+class PetStoreApiTest extends WebTestCase
 {
+    use ApiTestCase;
+
+    /**
+     * Use config_basic.yml
+     *
+     * @var bool
+     */
+    protected $env = 'test';
+
     /**
      * @var bool
      */
     protected $validateErrorResponse = false;
 
+    /**
+     * Init response validation, point to your spec
+     */
     public static function setUpBeforeClass()
     {
-        parent::initSchemaManager(__DIR__ . '/../../../app/config/swagger.yml');
+        static::initSchemaManager(__DIR__ . '/../../../app/config/swagger.yml');
     }
 
     /**
@@ -39,7 +52,7 @@ class PetStoreApiTest extends ApiTestCase
      */
     public function canPlaceOrder()
     {
-        $params = ['status' => 'available'];
+        $params = ['status' => 'placed'];
 
         $this->post('/v2/store/order', $params);
     }
