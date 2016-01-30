@@ -6,7 +6,7 @@ before_install:
     - composer self-update
 
 install:
-    - composer install --dev --prefer-source
+    - composer install --dev
     - cp .env.dist .env
 
 script: phpunit -c app

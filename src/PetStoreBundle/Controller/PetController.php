@@ -91,7 +91,7 @@ class PetController
                     'name'      => $name,
                     'photoUrls' => [],
                     'tags'      => [],
-                    'status'    => $request->get('status')[0]
+                    'status'    => $request->get('status')[0] //status is array swagger input parameter
                 ];
             }
         }

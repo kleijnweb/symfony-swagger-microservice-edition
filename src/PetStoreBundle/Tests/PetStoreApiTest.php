@@ -42,7 +42,7 @@ class PetStoreApiTest extends WebTestCase
      */
     public function canFindPetsByStatus()
     {
-        $params = ['status' => 'available'];
+        $params = ['status' => ['available']];
 
         $this->get('/v2/pet/findByStatus', $params);
     }
