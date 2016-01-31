@@ -2,6 +2,8 @@
 
 Symfony edition for "interface first" microservices that's as lean and mean as it is unofficial.  
 
+For a more complete example, have a look at [swagger-bundle-example](https://github.com/kleijnweb/swagger-bundle-example).
+
 ## Lean
 
 The Symfony Standard Editions bundles no less than 125MB worth of bytes. This edition comes in at 32MB (both installed with --no-dev). Components are cherry picked from Symfony, instead of including the whole framework with all the trimmings and then some 3rd part stuff*. 
